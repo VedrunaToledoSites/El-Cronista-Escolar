@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El Cronista Escolar</title>
+
+  <!-- ═══════════════════════════════════════════════════
+       FUENTES — cámbialas si quieres otro estilo
+  ═══════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ═══════════════════════════════════════════════
+       VARIABLES DE COLOR Y TIPOGRAFÍA
+       Cambia aquí para adaptar el estilo global
+    ═══════════════════════════════════════════════ */
+    :root {
+      --color-bg:        #f5f3ee;
+      --color-surface:   #ffffff;
+      --color-ink:       #1a1a1a;
+      --color-muted:     #5a5a5a;
+      --color-accent:    #1b3a6b;
+      --color-accent2:   #c0392b;
+      --color-rule:      #d0ccc3;
+      --color-tag-bg:    #1b3a6b;
+      --color-tag-text:  #ffffff;
+
+      --font-display:    'Playfair Display', Georgia, serif;
+      --font-body:       'Source Serif 4', Georgia, serif;
+      --font-ui:         'Inter', system-ui, sans-serif;
+
+      --radius:          6px;
+      --shadow:          0 2px 12px rgba(0,0,0,.08);
+      --shadow-lg:       0 4px 24px rgba(0,0,0,.12);
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESET Y BASE
+    ═══════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--color-bg);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    p { margin-bottom: .9em; }
+
+    /* ═══════════════════════════════════════════════
+       UTILIDADES
+    ═══════════════════════════════════════════════ */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .tag {
+      display: inline-block;
+      background: var(--color-tag-bg);
+      color: var(--color-tag-text);
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    .tag.red  { background: var(--color-accent2); }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--color-ink);
+      border-bottom: 3px solid var(--color-accent);
+      padding-bottom: 8px;
+      margin-bottom: 28px;
+    }
+    .img-placeholder {
+      background: #d8d4cc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-family: var(--font-ui);
+      font-size: .85rem;
+      letter-spacing: .04em;
+      overflow: hidden;
+      position: relative;
+    }
+    .img-placeholder::after {
+      content: '📷 Imagen';
+      position: absolute;
+    }
+    /* Oculta el texto cuando hay una <img> real dentro */
+    .img-placeholder img { position: relative; z-index: 1; }
+    section { padding: 56px 0; }
+    section + section { border-top: 1px solid var(--color-rule); }
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CABECERA / MASTHEAD
+    ═══════════════════════════════════════════════ */
+    .masthead {
+      background: var(--color-surface);
+      border-bottom: 2px solid var(--color-ink);
+      padding: 20px 0 14px;
+      text-align: center;
+    }
+    .masthead-meta {
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      color: var(--color-muted);
+      margin-bottom: 6px;
+      letter-spacing: .04em;
+    }
+    .masthead-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.02em;
+      /* ── CAMBIA AQUÍ EL NOMBRE DEL PERIÓDICO ── */
+    }
+    .masthead-tagline {
+      font-family: var(--font-ui);
+      font-size: .88rem;
+      color: var(--color-muted);
+      margin-top: 6px;
+      /* ── CAMBIA EL SUBTÍTULO ── */
+    }
+    .masthead-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0 28px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-rule);
+    }
+    .masthead-nav a {
+      font-family: var(--font-ui);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--color-ink);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      transition: color .2s;
+    }
+    .masthead-nav a:hover { color: var(--color-accent); text-decoration: none; }
+
+    /* ═══════════════════════════════════════════════
+       1. PORTADA
+    ═══════════════════════════════════════════════ */
+    #portada { background: var(--color-surface); }
+    .portada-hero {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 40px;
+      align-items: start;
+    }
+    .hero-image {
+      /* ── IMAGEN PRINCIPAL: cambia la altura si quieres ── */
+      height: 420px;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .hero-image .img-placeholder { height: 100%; }
+    .hero-content {}
+    .hero-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      /* ── TITULAR PRINCIPAL ── */
+    }
+    .hero-content .hero-desc {
+      font-size: 1.05rem;
+      color: var(--color-muted);
+      /* ── DESCRIPCIÓN BREVE ── */
+    }
+    .hero-byline {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      color: var(--color-muted);
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-rule);
+    }
+
+    /* ═══════════════════════════════════════════════
+       2. NOTICIAS
+    ═══════════════════════════════════════════════ */
+    #noticias { background: var(--color-bg); }
+    .noticias-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .noticia-card {}
+    .noticia-img {
+      /* ── IMAGEN DE NOTICIA: ajusta altura ── */
+      height: 200px;
+    }
+    .noticia-img .img-placeholder { height: 100%; }
+    .noticia-body { padding: 20px; }
+    .noticia-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 14px;
+      /* ── TITULAR DE NOTICIA ── */
+    }
+    .sixw {
+      list-style: none;
+      font-family: var(--font-ui);
+      font-size: .82rem;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .sixw li { display: flex; gap: 8px; align-items: baseline; }
+    .sixw .w-label {
+      font-weight: 700;
+      color: var(--color-accent);
+      min-width: 52px;
+      flex-shrink: 0;
+    }
+    /* ── RELLENA LAS 6W EN EL HTML ── */
+
+    /* ═══════════════════════════════════════════════
+       3. ENTREVISTA
+    ═══════════════════════════════════════════════ */
+    #entrevista { background: var(--color-surface); }
+    .entrevista-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .entrevista-foto {
+      position: sticky;
+      top: 20px;
+    }
+    .entrevista-foto .img-placeholder {
+      height: 360px;
+      border-radius: var(--radius);
+    }
+    .entrevista-foto figcaption {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      color: var(--color-muted);
+      margin-top: 8px;
+      text-align: center;
+      /* ── NOMBRE Y CARGO DEL ENTREVISTADO ── */
+    }
+    .entrevista-qas { display: flex; flex-direction: column; gap: 24px; }
+    .qa-block {}
+    .qa-pregunta {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--color-accent);
+      margin-bottom: 6px;
+      /* ── PREGUNTA ── */
+    }
+    .qa-respuesta {
+      color: var(--color-ink);
+      /* ── RESPUESTA ── */
+    }
+
+    /* ═══════════════════════════════════════════════
+       4. REPORTAJE
+    ═══════════════════════════════════════════════ */
+    #reportaje { background: var(--color-bg); }
+    .reportaje-layout {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .reportaje-layout h3 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 32px 0 12px;
+    }
+    .reportaje-img-wide {
+      /* ── IMAGEN GRANDE REPORTAJE ── */
+      height: 380px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 28px 0;
+      box-shadow: var(--shadow-lg);
+    }
+    .reportaje-img-wide .img-placeholder { height: 100%; }
+    .img-caption {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      color: var(--color-muted);
+      margin-top: -20px;
+      margin-bottom: 24px;
+      font-style: italic;
+      /* ── PIE DE FOTO ── */
+    }
+    .reportaje-img-half {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .reportaje-img-half .img-placeholder { height: 240px; border-radius: var(--radius); }
+
+    /* ═══════════════════════════════════════════════
+       5. OPINIÓN
+    ═══════════════════════════════════════════════ */
+    #opinion { background: var(--color-surface); }
+    .opinion-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--color-accent);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 40px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .opinion-box::before {
+      content: '"';
+      font-family: var(--font-display);
+      font-size: 14rem;
+      line-height: 1;
+      color: rgba(255,255,255,.07);
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      pointer-events: none;
+    }
+    .opinion-box .tag { background: var(--color-accent2); margin-bottom: 16px; }
+    .opinion-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      /* ── TÍTULO DEL ARTÍCULO DE OPINIÓN ── */
+    }
+    .opinion-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      opacity: .92;
+      /* ── TEXTO DE OPINIÓN ── */
+    }
+    .opinion-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.25);
+    }
+    .opinion-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,.4);
+    }
+    .opinion-avatar .img-placeholder { height: 100%; font-size: 0; }
+    .opinion-author-name {
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: .9rem;
+      /* ── NOMBRE AUTOR ── */
+    }
+    .opinion-author-role {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      opacity: .7;
+      /* ── ROL / CARGO ── */
+    }
+
+    /* ═══════════════════════════════════════════════
+       6. DEPORTES Y CULTURA
+    ═══════════════════════════════════════════════ */
+    #deportes-cultura { background: var(--color-bg); }
+    .deportes-cultura-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .subsection-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--color-rule);
+    }
+    .small-cards { display: flex; flex-direction: column; gap: 16px; }
+    .small-card {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .small-card-img .img-placeholder { height: 100px; min-height: 100%; }
+    .small-card-body { padding: 14px 16px; background: var(--color-surface); }
+    .small-card-body .tag { font-size: .65rem; padding: 2px 7px; }
+    .small-card-body h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 4px;
+      /* ── TITULAR TARJETA ── */
+    }
+    .small-card-body p {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      color: var(--color-muted);
+      margin: 0;
+      /* ── TEXTO CORTO ── */
+    }
+
+    /* ═══════════════════════════════════════════════
+       PIE DE PÁGINA
+    ═══════════════════════════════════════════════ */
+    footer {
+      background: var(--color-ink);
+      color: #aaa;
+      text-align: center;
+      padding: 32px 20px;
+      font-family: var(--font-ui);
+      font-size: .82rem;
+      margin-top: 0;
+    }
+    footer strong { color: #fff; }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVO — móvil
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .portada-hero        { grid-template-columns: 1fr; }
+      .hero-image          { height: 280px; }
+      .noticias-grid       { grid-template-columns: 1fr; }
+      .entrevista-layout   { grid-template-columns: 1fr; }
+      .entrevista-foto     { position: static; }
+      .entrevista-foto .img-placeholder { height: 260px; }
+      .reportaje-img-half  { grid-template-columns: 1fr; }
+      .deportes-cultura-grid { grid-template-columns: 1fr; }
+      .opinion-box         { padding: 28px 24px; }
+    }
+    @media (max-width: 560px) {
+      section { padding: 36px 0; }
+      .section-title { font-size: 1.4rem; }
+      .masthead-nav { gap: 0 16px; }
+      .small-card  { grid-template-columns: 90px 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       CABECERA DEL PERIÓDICO
+  ═══════════════════════════════════════════════ -->
+  <header class="masthead">
+    <div class="container">
+      <!-- ── Metadatos: fecha, número, edición ── -->
+      <p class="masthead-meta">Edición digital · Número 1 · [Fecha] · [Asignatura]</p>
+
+      <!-- ── NOMBRE DEL PERIÓDICO ── -->
+      <h1 class="masthead-name">El Cronista Escolar</h1>
+
+      <!-- ── SUBTÍTULO / LEMA ── -->
+      <p class="masthead-tagline">Información, cultura y opinión desde las aulas</p>
+
+      <!-- ── MENÚ DE NAVEGACIÓN ── -->
+      <nav class="masthead-nav">
+        <a href="#portada">Portada</a>
+        <a href="#noticias">Noticias</a>
+        <a href="#entrevista">Entrevista</a>
+        <a href="#reportaje">Reportaje</a>
+        <a href="#opinion">Opinión</a>
+        <a href="#deportes-cultura">Deportes & Cultura</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════════
+       1. PORTADA
+  ═══════════════════════════════════════════════ -->
+  <section id="portada">
+    <div class="container">
+      <span class="tag">Noticia Destacada</span>
+      <div class="portada-hero">
+
+        <!-- IMAGEN PRINCIPAL: reemplaza el div por una etiqueta img -->
+        <div class="hero-image">
+          <div class="img-placeholder">
+            <!-- <img src="tu-imagen.jpg" alt="Descripción de la imagen"> -->
+          </div>
+        </div>
+
+        <!-- CONTENIDO DEL ARTÍCULO PRINCIPAL -->
+        <div class="hero-content">
+          <!-- ── TITULAR PRINCIPAL ── -->
+          <h2>Escribe aquí el titular principal de tu artículo destacado</h2>
+
+          <!-- ── DESCRIPCIÓN BREVE (2-3 frases) ── -->
+          <p class="hero-desc">
+            Escribe una introducción breve del artículo principal. Debe enganchar al lector
+            y resumir lo más importante en dos o tres frases. Puedes hablar del contexto,
+            de los protagonistas y de la importancia del tema.
+          </p>
+          <p class="hero-desc">
+            Continúa aquí con más detalles si lo necesitas. Este espacio puede contener
+            el primer párrafo completo de la noticia.
+          </p>
+
+          <!-- ── AUTOR Y FECHA ── -->
+          <p class="hero-byline">Por <strong>[Nombre del autor]</strong> · [Fecha de publicación]</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       2. NOTICIAS (3 tarjetas)
+  ═══════════════════════════════════════════════ -->
+  <section id="noticias">
+    <div class="container">
+      <h2 class="section-title">Noticias</h2>
+
+      <div class="noticias-grid">
+
+        <!-- ── NOTICIA 1 ── -->
+        <article class="card noticia-card">
+          <div class="noticia-img">
+            <div class="img-placeholder">
+              <!-- <img src="noticia1.jpg" alt="Descripción"> -->
+            </div>
+          </div>
+          <div class="noticia-body">
+            <span class="tag">Categoría 1</span>
+            <h3>Titular de la primera noticia: resume el hecho principal</h3>
+            <ul class="sixw">
+              <li><span class="w-label">¿Qué?</span>   <span>Describe brevemente el hecho o acontecimiento.</span></li>
+              <li><span class="w-label">¿Quién?</span>  <span>Protagonista(s) o persona(s) implicada(s).</span></li>
+              <li><span class="w-label">¿Cuándo?</span> <span>Fecha o periodo en que ocurrió.</span></li>
+              <li><span class="w-label">¿Dónde?</span>  <span>Lugar o localización del hecho.</span></li>
+              <li><span class="w-label">¿Cómo?</span>   <span>Forma o circunstancias en que sucedió.</span></li>
+              <li><span class="w-label">¿Por qué?</span><span>Causa o razón del acontecimiento.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- ── NOTICIA 2 ── -->
+        <article class="card noticia-card">
+          <div class="noticia-img">
+            <div class="img-placeholder">
+              <!-- <img src="noticia2.jpg" alt="Descripción"> -->
+            </div>
+          </div>
+          <div class="noticia-body">
+            <span class="tag red">Categoría 2</span>
+            <h3>Titular de la segunda noticia: resume el hecho principal</h3>
+            <ul class="sixw">
+              <li><span class="w-label">¿Qué?</span>   <span>Describe brevemente el hecho o acontecimiento.</span></li>
+              <li><span class="w-label">¿Quién?</span>  <span>Protagonista(s) o persona(s) implicada(s).</span></li>
+              <li><span class="w-label">¿Cuándo?</span> <span>Fecha o periodo en que ocurrió.</span></li>
+              <li><span class="w-label">¿Dónde?</span>  <span>Lugar o localización del hecho.</span></li>
+              <li><span class="w-label">¿Cómo?</span>   <span>Forma o circunstancias en que sucedió.</span></li>
+              <li><span class="w-label">¿Por qué?</span><span>Causa o razón del acontecimiento.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- ── NOTICIA 3 ── -->
+        <article class="card noticia-card">
+          <div class="noticia-img">
+            <div class="img-placeholder">
+              <!-- <img src="noticia3.jpg" alt="Descripción"> -->
+            </div>
+          </div>
+          <div class="noticia-body">
+            <span class="tag">Categoría 3</span>
+            <h3>Titular de la tercera noticia: resume el hecho principal</h3>
+            <ul class="sixw">
+              <li><span class="w-label">¿Qué?</span>   <span>Describe brevemente el hecho o acontecimiento.</span></li>
+              <li><span class="w-label">¿Quién?</span>  <span>Protagonista(s) o persona(s) implicada(s).</span></li>
+              <li><span class="w-label">¿Cuándo?</span> <span>Fecha o periodo en que ocurrió.</span></li>
+              <li><span class="w-label">¿Dónde?</span>  <span>Lugar o localización del hecho.</span></li>
+              <li><span class="w-label">¿Cómo?</span>   <span>Forma o circunstancias en que sucedió.</span></li>
+              <li><span class="w-label">¿Por qué?</span><span>Causa o razón del acontecimiento.</span></li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       3. ENTREVISTA
+  ═══════════════════════════════════════════════ -->
+  <section id="entrevista">
+    <div class="container">
+      <span class="tag">Entrevista</span>
+      <h2 class="section-title">En profundidad</h2>
+
+      <div class="entrevista-layout">
+
+        <!-- FOTO DEL ENTREVISTADO -->
+        <figure class="entrevista-foto">
+          <div class="img-placeholder">
+            <!-- <img src="entrevistado.jpg" alt="Nombre del entrevistado"> -->
+          </div>
+          <!-- ── NOMBRE Y CARGO ── -->
+          <figcaption>
+            <strong>[Nombre del entrevistado]</strong><br>
+            [Cargo o descripción]
+          </figcaption>
+        </figure>
+
+        <!-- PREGUNTAS Y RESPUESTAS -->
+        <div class="entrevista-qas">
+
+          <!-- ── PREGUNTA 1 ── -->
+          <div class="qa-block">
+            <p class="qa-pregunta">— ¿Escribe aquí la primera pregunta de la entrevista?</p>
+            <p class="qa-respuesta">
+              Aquí va la respuesta del entrevistado. Puede ser larga o corta según lo que
+              dijera. Intenta que refleje fielmente sus palabras, usando comillas si citas
+              textualmente: "así se vería una cita directa".
+            </p>
+          </div>
+
+          <!-- ── PREGUNTA 2 ── -->
+          <div class="qa-block">
+            <p class="qa-pregunta">— ¿Cuál es la segunda pregunta que le hiciste?</p>
+            <p class="qa-respuesta">
+              Respuesta a la segunda pregunta. Puedes añadir contexto entre paréntesis
+              o en cursiva si es necesario aclarar algo al lector.
+            </p>
+          </div>
+
+          <!-- ── PREGUNTA 3 ── -->
+          <div class="qa-block">
+            <p class="qa-pregunta">— ¿Y la tercera pregunta de tu entrevista?</p>
+            <p class="qa-respuesta">
+              Tercera respuesta. Añade tantos bloques «qa-block» como preguntas tengas.
+              Solo tienes que copiar y pegar el bloque y cambiar el contenido.
+            </p>
+          </div>
+
+          <!-- ── AÑADE MÁS PREGUNTAS COPIANDO EL BLOQUE DE ARRIBA ── -->
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       4. REPORTAJE
+  ═══════════════════════════════════════════════ -->
+  <section id="reportaje">
+    <div class="container">
+      <span class="tag">Reportaje</span>
+      <h2 class="section-title">Reportaje especial</h2>
+
+      <div class="reportaje-layout">
+
+        <!-- ── TITULAR DEL REPORTAJE ── -->
+        <h3>Escribe aquí el título de tu reportaje</h3>
+
+        <!-- ── INTRODUCCIÓN ── -->
+        <p>
+          Este es el párrafo de introducción de tu reportaje. Explica el tema,
+          por qué es importante y qué vas a contar a lo largo del texto.
+          Un buen reportaje tiene contexto, datos y voces.
+        </p>
+        <p>
+          Continúa aquí con el desarrollo del reportaje. Puedes hablar de antecedentes,
+          del contexto histórico o social, o de los primeros datos que quieres presentar.
+        </p>
+
+        <!-- IMAGEN GRANDE (intercalada) -->
+        <div class="reportaje-img-wide">
+          <div class="img-placeholder">
+            <!-- <img src="reportaje-imagen1.jpg" alt="Pie de foto"> -->
+          </div>
+        </div>
+        <!-- ── PIE DE FOTO ── -->
+        <p class="img-caption">Pie de foto: describe lo que aparece en la imagen y su fuente si procede.</p>
+
+        <!-- ── SEGUNDO BLOQUE DE TEXTO ── -->
+        <h3>Subtítulo del segundo apartado</h3>
+        <p>
+          Segundo bloque de contenido del reportaje. Aquí puedes desarrollar un aspecto
+          concreto del tema, añadir testimonios, datos estadísticos o análisis.
+        </p>
+        <p>
+          Sigue desarrollando este apartado con tantos párrafos como necesites.
+          Recuerda citar tus fuentes y usar datos concretos para dar credibilidad al texto.
+        </p>
+
+        <!-- DOS IMÁGENES EN FILA (intercaladas) -->
+        <div class="reportaje-img-half">
+          <div class="img-placeholder">
+            <!-- <img src="reportaje-img2.jpg" alt="Descripción"> -->
+          </div>
+          <div class="img-placeholder">
+            <!-- <img src="reportaje-img3.jpg" alt="Descripción"> -->
+          </div>
+        </div>
+        <p class="img-caption">Izquierda: [pie foto 1]. Derecha: [pie foto 2].</p>
+
+        <!-- ── TERCER BLOQUE DE TEXTO ── -->
+        <h3>Conclusiones o cierre del reportaje</h3>
+        <p>
+          Aquí va el bloque final del reportaje. Resume las ideas principales,
+          da una perspectiva de futuro o termina con una reflexión que invite
+          al lector a pensar sobre el tema tratado.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       5. OPINIÓN
+  ═══════════════════════════════════════════════ -->
+  <section id="opinion">
+    <div class="container">
+      <h2 class="section-title">Opinión</h2>
+
+      <div class="opinion-box">
+        <span class="tag">Editorial</span>
+
+        <!-- ── TÍTULO DEL ARTÍCULO DE OPINIÓN ── -->
+        <h3 class="opinion-title">
+          Escribe aquí el título de tu artículo de opinión
+        </h3>
+
+        <!-- ── CUERPO DEL TEXTO DE OPINIÓN ── -->
+        <div class="opinion-text">
+          <p>
+            Este es el primer párrafo de tu artículo de opinión. Aquí presentas tu
+            tesis o postura sobre el tema. Sé claro y directo: el lector debe saber
+            desde el principio de qué lado estás y qué vas a argumentar.
+          </p>
+          <p>
+            En el segundo párrafo desarrollas tus argumentos. Usa hechos, ejemplos
+            o datos para apoyar tu opinión. Un buen artículo de opinión convence
+            porque tiene fundamento, no solo porque sea apasionado.
+          </p>
+          <p>
+            Cierra con una conclusión o llamada a la acción. ¿Qué quieres que piense
+            o haga el lector después de leer tu texto? Ese es el momento de decirlo
+            con contundencia.
+          </p>
+        </div>
+
+        <!-- AUTOR -->
+        <div class="opinion-author">
+          <div class="opinion-avatar">
+            <div class="img-placeholder">
+              <!-- <img src="autor.jpg" alt="Autor"> -->
+            </div>
+          </div>
+          <div>
+            <!-- ── NOMBRE Y ROL DEL AUTOR ── -->
+            <p class="opinion-author-name">[Nombre del autor]</p>
+            <p class="opinion-author-role">[Curso / Asignatura / Rol]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       6. DEPORTES Y CULTURA
+  ═══════════════════════════════════════════════ -->
+  <section id="deportes-cultura">
+    <div class="container">
+      <h2 class="section-title">Deportes &amp; Cultura</h2>
+
+      <div class="deportes-cultura-grid">
+
+        <!-- ── COLUMNA DEPORTES ── -->
+        <div class="deportes-col">
+          <h3 class="subsection-title">🏆 Deportes</h3>
+          <div class="small-cards">
+
+            <!-- Tarjeta deporte 1 -->
+            <article class="card small-card">
+              <div class="small-card-img">
+                <div class="img-placeholder">
+                  <!-- <img src="deporte1.jpg" alt="Deporte"> -->
+                </div>
+              </div>
+              <div class="small-card-body">
+                <span class="tag">Fútbol</span>
+                <h4>Titular breve de la noticia deportiva</h4>
+                <p>Breve descripción del resultado, evento o noticia deportiva.</p>
+              </div>
+            </article>
+
+            <!-- Tarjeta deporte 2 -->
+            <article class="card small-card">
+              <div class="small-card-img">
+                <div class="img-placeholder">
+                  <!-- <img src="deporte2.jpg" alt="Deporte"> -->
+                </div>
+              </div>
+              <div class="small-card-body">
+                <span class="tag">Baloncesto</span>
+                <h4>Titular breve de la segunda noticia deportiva</h4>
+                <p>Breve descripción del resultado, evento o noticia deportiva.</p>
+              </div>
+            </article>
+
+            <!-- Tarjeta deporte 3 -->
+            <article class="card small-card">
+              <div class="small-card-img">
+                <div class="img-placeholder">
+                  <!-- <img src="deporte3.jpg" alt="Deporte"> -->
+                </div>
+              </div>
+              <div class="small-card-body">
+                <span class="tag">Atletismo</span>
+                <h4>Titular breve de la tercera noticia deportiva</h4>
+                <p>Breve descripción del resultado, evento o noticia deportiva.</p>
+              </div>
+            </article>
+
+          </div><!-- /small-cards -->
+        </div>
+
+        <!-- ── COLUMNA CULTURA ── -->
+        <div class="cultura-col">
+          <h3 class="subsection-title">🎨 Cultura</h3>
+          <div class="small-cards">
+
+            <!-- Tarjeta cultura 1 -->
+            <article class="card small-card">
+              <div class="small-card-img">
+                <div class="img-placeholder">
+                  <!-- <img src="cultura1.jpg" alt="Cultura"> -->
+                </div>
+              </div>
+              <div class="small-card-body">
+                <span class="tag red">Cine</span>
+                <h4>Titular breve de la noticia cultural</h4>
+                <p>Breve descripción del evento, obra o noticia cultural.</p>
+              </div>
+            </article>
+
+            <!-- Tarjeta cultura 2 -->
+            <article class="card small-card">
+              <div class="small-card-img">
+                <div class="img-placeholder">
+                  <!-- <img src="cultura2.jpg" alt="Cultura"> -->
+                </div>
+              </div>
+              <div class="small-card-body">
+                <span class="tag red">Música</span>
+                <h4>Titular breve de la segunda noticia cultural</h4>
+                <p>Breve descripción del evento, obra o noticia cultural.</p>
+              </div>
+            </article>
+
+            <!-- Tarjeta cultura 3 -->
+            <article class="card small-card">
+              <div class="small-card-img">
+                <div class="img-placeholder">
+                  <!-- <img src="cultura3.jpg" alt="Cultura"> -->
+                </div>
+              </div>
+              <div class="small-card-body">
+                <span class="tag red">Literatura</span>
+                <h4>Titular breve de la tercera noticia cultural</h4>
+                <p>Breve descripción del evento, obra o noticia cultural.</p>
+              </div>
+            </article>
+
+          </div><!-- /small-cards -->
+        </div>
+
+      </div><!-- /deportes-cultura-grid -->
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PIE DE PÁGINA
+  ═══════════════════════════════════════════════ -->
+  <footer>
+    <strong>El Cronista Escolar</strong> · Trabajo escolar · [Nombre del alumno] · [Curso y asignatura] · [Año]
+  </footer>
+
+</body>
+</html>
