@@ -440,6 +440,44 @@
     }
 
     /* ═══════════════════════════════════════════════
+       3. VÍDEO
+    ═══════════════════════════════════════════════ */
+    #entrevista { background: var(--color-surface); }
+    .video-wrapper {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .video-wrapper video,
+    .video-wrapper iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      background: #000;
+      border: none;
+      display: block;
+    }
+    .video-caption {
+      margin-top: 20px;
+      padding: 20px 24px;
+      background: var(--color-surface);
+      border-left: 4px solid var(--color-accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .video-caption h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .video-caption p {
+      font-family: var(--font-ui);
+      font-size: .88rem;
+      color: var(--color-muted);
+      margin: 0;
+    }
+
+    /* ═══════════════════════════════════════════════
        PIE DE PÁGINA
     ═══════════════════════════════════════════════ */
     footer {
@@ -623,77 +661,51 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       3. ENTREVISTA
+       3. VÍDEO
   ═══════════════════════════════════════════════ -->
   <section id="entrevista">
     <div class="container">
-      <span class="tag">Entrevista</span>
-      <h2 class="section-title">En profundidad</h2>
+      <span class="tag">Vídeo</span>
+      <h2 class="section-title">En vídeo</h2>
 
-      <div class="entrevista-layout">
+      <div class="video-wrapper">
+        <!-- ══════════════════════════════════════════
+             PON AQUÍ TU VÍDEO — dos opciones:
 
-        <!-- FOTO DEL ENTREVISTADO -->
-        <figure class="entrevista-foto">
-          <div class="img-placeholder">
-            <!-- <img src="entrevistado.jpg" alt="Nombre del entrevistado"> -->
-          </div>
-          <!-- ── NOMBRE Y CARGO ── -->
-          <figcaption>
-            <strong>[Nombre del entrevistado]</strong><br>
-            [Cargo o descripción]
-          </figcaption>
-        </figure>
+             OPCIÓN A · Archivo en tu repositorio
+             Sube el vídeo a una carpeta, p.ej. "media/",
+             y cambia la ruta en el <source src="...">.
+             También puedes cambiar el poster (miniatura)
+             apuntando a una imagen del mismo repo.
 
-        <!-- PREGUNTAS Y RESPUESTAS -->
-        <div class="entrevista-qas">
+             OPCIÓN B · YouTube u otro iframe
+             Comenta el bloque <video> y descomenta
+             el <iframe> de abajo. Pega tu URL embed.
+        ══════════════════════════════════════════ -->
 
-          <!-- ── PREGUNTA 1 ── -->
-          <div class="qa-block">
-            <p class="qa-pregunta">— Usted lleva años estudiando los hábitos de sueño de los adolescentes. ¿Qué le ha sorprendido más?</p>
-            <p class="qa-respuesta">
-              Lo más impactante es la correlación directa entre el uso del móvil después de medianoche
-              y el rendimiento en matemáticas a primera hora de la mañana. No es que los jóvenes sean malos en mates:
-              es que están dormidos con los ojos abiertos. Hemos registrado estudiantes cuya actividad
-              cerebral durante un examen a las 8 de la mañana era prácticamente indistinguible de la de alguien
-              en la primera fase del sueño.
-            </p>
-          </div>
+        <!-- OPCIÓN A: vídeo propio (sube el archivo al repo) -->
+        <video controls poster="media/portada-video.jpg">
+          <source src="media/mi-video.mp4" type="video/mp4">
+          Tu navegador no soporta el elemento de vídeo.
+          <a href="media/mi-video.mp4">Descargar vídeo</a>
+        </video>
 
-          <!-- ── PREGUNTA 2 ── -->
-          <div class="qa-block">
-            <p class="qa-pregunta">— ¿Existe algún truco sencillo para dormir mejor sin apagar el teléfono completamente?</p>
-            <p class="qa-respuesta">
-              Técnicamente sí. El modo avión a partir de las 23:00 reduce la tentación sin generar la ansiedad
-              que produce apagar el dispositivo del todo. Otro método eficaz es dejar el cargador en otra habitación:
-              el 80 % de las personas que lo prueban tardan menos de una semana en adaptarse y duermen entre
-              45 minutos y una hora más por noche. El problema es convencerlas de que lo intenten.
-            </p>
-          </div>
+        <!-- OPCIÓN B: YouTube — descomenta y pega tu URL embed
+        <iframe
+          src="https://www.youtube.com/embed/PON-AQUI-EL-ID"
+          title="Vídeo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        -->
 
-          <!-- ── PREGUNTA 3 ── -->
-          <div class="qa-block">
-            <p class="qa-pregunta">— ¿Qué le diría a un estudiante que lee esta entrevista ahora mismo a las dos de la madrugada?</p>
-            <p class="qa-respuesta">
-              Que lo entiendo perfectamente. Que cada hora de sueño perdida antes de los 20 años tiene un coste
-              cognitivo real y medible. Y también algo que suele funcionar mejor que cualquier dato científico:
-              dormir más hace que las cosas malas parezcan menos malas al día siguiente.
-              Es el antidepresivo más barato del mundo y no necesita receta.
-            </p>
-          </div>
-
-          <!-- ── PREGUNTA 4 ── -->
-          <div class="qa-block">
-            <p class="qa-pregunta">— ¿Alguna vez usted mismo se queda hasta tarde mirando el teléfono?</p>
-            <p class="qa-respuesta">
-              Absolutamente. Y con eso le digo todo lo que necesita saber sobre la diferencia entre
-              saber algo y hacerlo. Conocer la ciencia no te inmuniza contra el scroll infinito.
-              En mi caso suele ser el seguimiento de datos de sueño de mis propios estudios,
-              lo cual tiene una ironía que mis colegas disfrutan mucho señalar.
-            </p>
-          </div>
-
+        <!-- ── TÍTULO Y DESCRIPCIÓN ── -->
+        <div class="video-caption">
+          <h3>[Título del vídeo]</h3>
+          <p>[Descripción breve: de qué trata, quién aparece, cuándo se grabó.]</p>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -861,8 +873,8 @@
               </div>
               <div class="small-card-body">
                 <span class="tag">Fútbol</span>
-                <h4>El Madrid gana la Champions con gol en el minuto 120+3 (otra vez)</h4>
-                <p>Bellingham marca en la prórroga. El estadio entra en pánico colectivo hasta que el VAR confirma el gol.</p>
+                <h4>Mourinho ficha por el Real Madrid: el entrenador más polémico vuelve a donde todo empezó</h4>
+                <p>El regreso del "Special One" al Bernabéu confirma que en el fútbol nunca digas nunca. Los memes ya van por la tercera ronda.</p>
               </div>
             </article>
 
@@ -925,8 +937,8 @@
               </div>
               <div class="small-card-body">
                 <span class="tag red">Música</span>
-                <h4>Sabrina Carpenter anuncia gira y las entradas de España se agotan en 4 minutos</h4>
-                <p>Los servidores caen durante 20 minutos. Miles en lista de espera. La resignación es generalizada.</p>
+                <h4>Quevedo lanza nuevo álbum por sorpresa y paraliza las listas de reproducción de media España</h4>
+                <p>El artista canario publica sin previo aviso. Spotify registra picos históricos en España en las primeras horas.</p>
               </div>
             </article>
 
