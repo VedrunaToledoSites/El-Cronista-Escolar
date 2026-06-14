@@ -440,41 +440,35 @@
     }
 
     /* ═══════════════════════════════════════════════
-       3. VÍDEO
+       3. ENTREVISTA
     ═══════════════════════════════════════════════ */
     #entrevista { background: var(--color-surface); }
-    .video-wrapper {
-      max-width: 820px;
-      margin: 0 auto;
+    .entrevista-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 48px;
+      align-items: start;
     }
-    .video-wrapper video,
-    .video-wrapper iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
+    .entrevista-foto { position: sticky; top: 20px; }
+    .entrevista-foto .img-placeholder {
+      height: 360px;
       border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      background: #000;
-      border: none;
-      display: block;
     }
-    .video-caption {
-      margin-top: 20px;
-      padding: 20px 24px;
-      background: var(--color-surface);
-      border-left: 4px solid var(--color-accent);
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
-    .video-caption h3 {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .video-caption p {
+    .entrevista-foto figcaption {
       font-family: var(--font-ui);
-      font-size: .88rem;
+      font-size: .8rem;
       color: var(--color-muted);
-      margin: 0;
+      margin-top: 8px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .entrevista-qas { display: flex; flex-direction: column; gap: 24px; }
+    .qa-pregunta {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--color-accent);
+      margin-bottom: 6px;
     }
 
     /* ═══════════════════════════════════════════════
@@ -554,7 +548,8 @@
         <!-- IMAGEN PRINCIPAL: reemplaza el div por una etiqueta img -->
         <div class="hero-image">
           <div class="img-placeholder">
-            <!-- <img src="tu-imagen.jpg" alt="Descripción de la imagen"> -->
+            <!-- ARCHIVO: images/portada-principal.jpg -->
+            <img src="images/portada-principal.jpg" alt="Imagen principal de portada">
           </div>
         </div>
 
@@ -596,7 +591,8 @@
         <article class="card noticia-card">
           <div class="noticia-img">
             <div class="img-placeholder">
-              <!-- <img src="noticia1.jpg" alt="Descripción"> -->
+              <!-- ARCHIVO: images/noticia-panda.jpg -->
+              <img src="images/noticia-panda.jpg" alt="Oso panda con tablet">
             </div>
           </div>
           <div class="noticia-body">
@@ -617,7 +613,8 @@
         <article class="card noticia-card">
           <div class="noticia-img">
             <div class="img-placeholder">
-              <!-- <img src="noticia2.jpg" alt="Descripción"> -->
+              <!-- ARCHIVO: images/noticia-semaforo.jpg -->
+              <img src="images/noticia-semaforo.jpg" alt="Semáforo con LEDs en el suelo">
             </div>
           </div>
           <div class="noticia-body">
@@ -638,7 +635,8 @@
         <article class="card noticia-card">
           <div class="noticia-img">
             <div class="img-placeholder">
-              <!-- <img src="noticia3.jpg" alt="Descripción"> -->
+              <!-- ARCHIVO: images/noticia-paloma.jpg -->
+              <img src="images/noticia-paloma.jpg" alt="Paloma mensajera startup">
             </div>
           </div>
           <div class="noticia-body">
@@ -661,51 +659,66 @@
 
 
   <!-- ═══════════════════════════════════════════════
-       3. VÍDEO
+       3. ENTREVISTA — Guillermo Paniagua
   ═══════════════════════════════════════════════ -->
   <section id="entrevista">
     <div class="container">
-      <span class="tag">Vídeo</span>
-      <h2 class="section-title">En vídeo</h2>
+      <span class="tag">Entrevista</span>
+      <h2 class="section-title">En profundidad</h2>
 
-      <div class="video-wrapper">
-        <!-- ══════════════════════════════════════════
-             PON AQUÍ TU VÍDEO — dos opciones:
+      <div class="entrevista-layout">
 
-             OPCIÓN A · Archivo en tu repositorio
-             Sube el vídeo a una carpeta, p.ej. "media/",
-             y cambia la ruta en el <source src="...">.
-             También puedes cambiar el poster (miniatura)
-             apuntando a una imagen del mismo repo.
+        <!-- FOTO DEL ENTREVISTADO -->
+        <!-- ARCHIVO: images/entrevista-guillermo.jpg -->
+        <figure class="entrevista-foto">
+          <div class="img-placeholder">
+            <img src="images/entrevista-guillermo.jpg" alt="Guillermo Paniagua piloto de karting">
+          </div>
+          <figcaption>
+            <strong>Guillermo Paniagua</strong><br>
+            Piloto de karting · Club Karting Madrid<br>
+            Campeón de España · Campeón Social Recas DD2
+          </figcaption>
+        </figure>
 
-             OPCIÓN B · YouTube u otro iframe
-             Comenta el bloque <video> y descomenta
-             el <iframe> de abajo. Pega tu URL embed.
-        ══════════════════════════════════════════ -->
+        <!-- PREGUNTAS Y RESPUESTAS -->
+        <div class="entrevista-qas">
 
-        <!-- OPCIÓN A: vídeo propio (sube el archivo al repo) -->
-        <video controls poster="media/portada-video.jpg">
-          <source src="media/mi-video.mp4" type="video/mp4">
-          Tu navegador no soporta el elemento de vídeo.
-          <a href="media/mi-video.mp4">Descargar vídeo</a>
-        </video>
+          <div class="qa-block">
+            <p class="qa-pregunta">— Llevas años compitiendo en karting. ¿Cuándo supiste que esto iba en serio?</p>
+            <p class="qa-respuesta">
+              Cuando gané el Campeonato Social de Recas en DD2. Ahí me di cuenta de que no era solo un hobby.
+              Cambió todo: cómo entreno, cómo me tomo cada carrera, cómo pienso dentro del kart.
+            </p>
+          </div>
 
-        <!-- OPCIÓN B: YouTube — descomenta y pega tu URL embed
-        <iframe
-          src="https://www.youtube.com/embed/PON-AQUI-EL-ID"
-          title="Vídeo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-        -->
+          <div class="qa-block">
+            <p class="qa-pregunta">— ¿Qué significa para ti correr con el Club Karting Madrid?</p>
+            <p class="qa-respuesta">
+              Es mi equipo, en el sentido real de la palabra. Hay mucho compañerismo y gente que
+              lleva desde 2007 currándoselo. Sin ellos, muchas victorias no habrían pasado.
+            </p>
+          </div>
 
-        <!-- ── TÍTULO Y DESCRIPCIÓN ── -->
-        <div class="video-caption">
-          <h3>[Título del vídeo]</h3>
-          <p>[Descripción breve: de qué trata, quién aparece, cuándo se grabó.]</p>
+          <div class="qa-block">
+            <p class="qa-pregunta">— Has competido en Rotax Max, DD2, Fórmula Súper Toyota, Clío Sport... ¿cuál es la más bestia?</p>
+            <p class="qa-respuesta">
+              El DD2 es muy físico, el kart no para quieto. La Fórmula Súper Toyota es otra velocidad.
+              Pero la más dura mentalmente es el Rotax: todos van igual de rápido, así que gana
+              el que menos caga.
+            </p>
+          </div>
+
+          <div class="qa-block">
+            <p class="qa-pregunta">— ¿Qué le dirías a alguien que quiere empezar pero no sabe por dónde?</p>
+            <p class="qa-respuesta">
+              Que vaya a un club y pruebe. No hace falta tener kart ni dinero para empezar.
+              Si enganchas, ya no hay vuelta atrás. Yo lo sé mejor que nadie.
+            </p>
+          </div>
+
         </div>
       </div>
-
     </div>
   </section>
 
@@ -741,7 +754,8 @@
         <!-- IMAGEN GRANDE (intercalada) -->
         <div class="reportaje-img-wide">
           <div class="img-placeholder">
-            <!-- <img src="reportaje-imagen1.jpg" alt="Pie de foto"> -->
+            <!-- ARCHIVO: images/reportaje-pantallas.jpg -->
+            <img src="images/reportaje-pantallas.jpg" alt="Jóvenes mirando pantallas en transporte público">
           </div>
         </div>
         <!-- ── PIE DE FOTO ── -->
@@ -767,10 +781,12 @@
         <!-- DOS IMÁGENES EN FILA (intercaladas) -->
         <div class="reportaje-img-half">
           <div class="img-placeholder">
-            <!-- <img src="reportaje-img2.jpg" alt="Descripción"> -->
+            <!-- ARCHIVO: images/reportaje-grafico.jpg -->
+            <img src="images/reportaje-grafico.jpg" alt="Gráfico de uso de pantallas">
           </div>
           <div class="img-placeholder">
-            <!-- <img src="reportaje-img3.jpg" alt="Descripción"> -->
+            <!-- ARCHIVO: images/reportaje-alternativas.jpg -->
+            <img src="images/reportaje-alternativas.jpg" alt="Joven leyendo un libro en papel">
           </div>
         </div>
         <p class="img-caption">Izquierda: el tiempo de uso de pantallas entre 12 y 17 años creció un 34 % entre 2020 y 2025. Derecha: alternativas analógicas que recuperan terreno entre la generación Z.</p>
@@ -837,7 +853,8 @@
         <div class="opinion-author">
           <div class="opinion-avatar">
             <div class="img-placeholder">
-              <!-- <img src="autor.jpg" alt="Foto del autor"> -->
+              <!-- ARCHIVO: images/autor-opinion.jpg -->
+              <img src="images/autor-opinion.jpg" alt="Foto del autor">
             </div>
           </div>
           <div>
@@ -868,7 +885,8 @@
             <article class="card small-card">
               <div class="small-card-img">
                 <div class="img-placeholder">
-                  <!-- <img src="deporte1.jpg" alt="Fútbol Champions"> -->
+                  <!-- ARCHIVO: images/deporte-mourinho.jpg -->
+                  <img src="images/deporte-mourinho.jpg" alt="Mourinho Real Madrid">
                 </div>
               </div>
               <div class="small-card-body">
@@ -882,7 +900,8 @@
             <article class="card small-card">
               <div class="small-card-img">
                 <div class="img-placeholder">
-                  <!-- <img src="deporte2.jpg" alt="NBA Wembanyama"> -->
+                  <!-- ARCHIVO: images/deporte-wembanyama.jpg -->
+                  <img src="images/deporte-wembanyama.jpg" alt="Wembanyama NBA">
                 </div>
               </div>
               <div class="small-card-body">
@@ -896,7 +915,8 @@
             <article class="card small-card">
               <div class="small-card-img">
                 <div class="img-placeholder">
-                  <!-- <img src="deporte3.jpg" alt="Tenis Roland Garros"> -->
+                  <!-- ARCHIVO: images/deporte-rolandgarros.jpg -->
+                  <img src="images/deporte-rolandgarros.jpg" alt="Tenis Roland Garros">
                 </div>
               </div>
               <div class="small-card-body">
@@ -918,7 +938,8 @@
             <article class="card small-card">
               <div class="small-card-img">
                 <div class="img-placeholder">
-                  <!-- <img src="cultura1.jpg" alt="Cine superhéroes"> -->
+                  <!-- ARCHIVO: images/cultura-superheroes.jpg -->
+                  <img src="images/cultura-superheroes.jpg" alt="Cine superhéroes">
                 </div>
               </div>
               <div class="small-card-body">
@@ -932,7 +953,8 @@
             <article class="card small-card">
               <div class="small-card-img">
                 <div class="img-placeholder">
-                  <!-- <img src="cultura2.jpg" alt="Música concierto"> -->
+                  <!-- ARCHIVO: images/cultura-quevedo.jpg -->
+                  <img src="images/cultura-quevedo.jpg" alt="Quevedo nuevo álbum">
                 </div>
               </div>
               <div class="small-card-body">
@@ -946,7 +968,8 @@
             <article class="card small-card">
               <div class="small-card-img">
                 <div class="img-placeholder">
-                  <!-- <img src="cultura3.jpg" alt="GTA VI"> -->
+                  <!-- ARCHIVO: images/cultura-gtavi.jpg -->
+                  <img src="images/cultura-gtavi.jpg" alt="GTA VI">
                 </div>
               </div>
               <div class="small-card-body">
